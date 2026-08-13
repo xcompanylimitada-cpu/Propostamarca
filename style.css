@@ -621,3 +621,30 @@ h1 {
     .portfolio-card { flex: 0 0 140px; }
     .price-number { font-size: 52px; }
 }
+
+/* PERFORMANCE MOBILE - desliga efeitos pesados (blur animado + backdrop-filter)
+   que travam a renderização e o carrossel em celulares */
+@media (max-width: 900px) {
+    .glass {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(5, 5, 5, 0.94);
+    }
+
+    .gradient-orb,
+    .orb-2,
+    .orb-3 {
+        animation: none;
+        filter: blur(30px);
+        opacity: 0.6;
+    }
+
+    .marquee {
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .marquee-content {
+        animation-duration: 40s;
+    }
+}
