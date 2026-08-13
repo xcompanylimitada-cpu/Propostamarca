@@ -1,18 +1,23 @@
-// PARALLAX NAS ORBES
-document.addEventListener('mousemove', (e) => {
-    const orbs = document.querySelectorAll('.gradient-orb');
-    const mouseX = e.clientX / window.innerWidth;
-    const mouseY = e.clientY / window.innerHeight;
-    
-    orbs.forEach((orb, index) => {
-        const speed = (index + 1) * 15;
-        const x = (mouseX - 0.5) * speed;
-        const y = (mouseY - 0.5) * speed;
-        orb.style.transform = `translate(${x}px, ${y}px)`;
-    });
-});
+// PARALLAX NAS ORBES (desativado em telas de toque para não pesar no mobile)
+const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-// OBSERVER PARA REVELAR ELEMENTOS
+if (!isTouchDevice) {
+    document.addEventListener('mousemove', (e) => {
+        const orbs = document.querySelectorAll('.gradient-orb');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        orbs.forEach((orb, index) => {
+            const speed = (index + 1) * 15;
+            const x = (mouseX - 0.5) * speed;
+            const y = (mouseY - 0.5) * speed;
+            orb.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    });
+}
+
+// OBSERVER PARA REVELAR ELEMENTOS (não aplicado aos cards do carrossel,
+// que já ficam sempre visíveis se movendo — evita ficarem pretos/sumidos)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -22,7 +27,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1, rootMargin: '50px' });
 
-document.querySelectorAll('.portfolio-card, .scope-item, .ads-card').forEach(el => {
+document.querySelectorAll('.scope-item, .ads-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -37,3 +42,4 @@ if (monthlyPrice) {
         monthlyPrice.offsetHeight;
         monthlyPrice.style.animation = 'pulse 3s ease-in-out infinite';
     }, 6000);
+}
